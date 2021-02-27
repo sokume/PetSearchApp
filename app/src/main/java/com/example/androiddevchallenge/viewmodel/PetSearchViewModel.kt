@@ -5,9 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.androiddevchallenge.R
-import com.example.androiddevchallenge.model.AnimalType
 import com.example.androiddevchallenge.model.Pet
-import java.util.*
 
 class PetSearchViewModel : ViewModel() {
 
@@ -38,26 +36,36 @@ class PetSearchViewModel : ViewModel() {
 
     init {
         petList = listOf(
-            Pet(1,"pochi",AnimalType.Dog, Date(),"tokyo", R.drawable.dog1, sampleNote),
-            Pet(2,"ken",AnimalType.Cat, Date(),"tokyo",R.drawable.dog2, sampleNote),
-            Pet(3,"pochi",AnimalType.Dog, Date(),"tokyo", R.drawable.dog3, sampleNote),
-            Pet(4,"ken",AnimalType.Cat, Date(),"tokyo",R.drawable.dog4, sampleNote),
-            Pet(5,"pochi",AnimalType.Dog, Date(),"tokyo", R.drawable.dog5, sampleNote),
-            Pet(6,"ken",AnimalType.Cat, Date(),"tokyo",R.drawable.dog6, sampleNote),
-            Pet(7,"pochi",AnimalType.Dog, Date(),"tokyo", R.drawable.dog7, sampleNote),
-            Pet(8,"ken",AnimalType.Cat, Date(),"tokyo",R.drawable.dog8, sampleNote),
+            Pet("Charlie","POODLES", "2020/04","CA", R.drawable.dog1, sampleNote),
+            Pet("Rocky","PEMBROKE WELSH CORGIS", "2020/03","CA",R.drawable.dog2, sampleNote),
+            Pet("LILY","SCOTTISH FOLD", "2020/05","DC",R.drawable.cat1, sampleNote),
+            Pet("Lola","YORKSHIRE TERRIERS", "2020/03","AZ", R.drawable.dog3, sampleNote),
+            Pet("Maggie","POMERANIAN", "2020/08","FL",R.drawable.dog4, sampleNote),
+            Pet("CHARLIE","AMERICAN SHORT HAIR", "2020/05","DC",R.drawable.cat2, sampleNote),
+            Pet("Toby","YORKSHIRE TERRIERS", "2020/03","DC", R.drawable.dog5, sampleNote),
+            Pet("Lucy","RETRIEVERS (GOLDEN) ", "2019/12","MT",R.drawable.dog6, sampleNote),
+            Pet("TIGER","OTHER", "2020/05","MT",R.drawable.cat3, sampleNote),
+            Pet("Tama","OTHER", "2020/07","FL",R.drawable.cat4, sampleNote),
+            Pet("Buchi","OTHER", "2020/06","FL",R.drawable.cat5, sampleNote),
+            Pet("Sophie","SHIH TZU", "2020/07","ME", R.drawable.dog7, sampleNote),
+            Pet("Cooper","OTHER", "2020/08","NY",R.drawable.dog8, sampleNote),
         )
     }
 
-    fun setPet(pet : Pet){
+    fun setPet(pet : Pet?){
         selectedPet = pet
         petCheckedCount = INITIAL_COUNT
-        petDetailNote = pet.notes[petCheckedCount]
+        petDetailNote = pet?.notes?.get(petCheckedCount - 1) ?: ""
     }
 
     fun checkCountUp(){
-        petCheckedCount++
-        petDetailNote = selectedPet?.notes?.get(petCheckedCount - 1) ?: ""
+        try {
+            petCheckedCount++
+            petDetailNote = selectedPet?.notes?.get(petCheckedCount - 1) ?: ""
+        }catch (exception : Exception){
+            selectedPet = null
+            petCheckedCount = INITIAL_COUNT
+        }
     }
 
     companion object{

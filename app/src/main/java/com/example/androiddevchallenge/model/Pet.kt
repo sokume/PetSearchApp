@@ -4,15 +4,11 @@ import java.util.*
 
 
 data class Pet(
-    val id : Int,
     val name : String,
-    val type : AnimalType,
-    val birthday : Date,
+    val type : String,
+    val birthday : String,
     val origin : String,
     val drawableImageId : Int,
     val notes : List<String>
 )
 
-enum class AnimalType{
-    Dog,Cat
-}

@@ -23,12 +23,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -83,14 +80,13 @@ fun MyApp() {
     Surface(color = MaterialTheme.colors.background) {
         // List
         PetList(
-            petSearchViewModel.petList,
-            Modifier)
+            petList = petSearchViewModel.petList
+        )
         // Detail
         selectedPet?.let{
             PetDetailBase(
-                it,
-                Modifier
-            )            
+                pet = it
+            )
         }
     }
 }
@@ -107,6 +103,39 @@ fun PetDetailBase(
         elevation = 8.dp
     ) {
         PetDetailContent(pet,modifier)
+        PetDetailAction(modifier)
+    }
+}
+
+@Composable
+fun PetDetailAction(modifier: Modifier) {
+
+    val buttonModifier = Modifier
+        .width(75.dp)
+        .height(75.dp)
+        .padding(8.dp)
+
+    Box (
+        modifier = buttonModifier,
+        contentAlignment = Alignment.TopEnd,
+    ){
+        IconButton(onClick = {
+            petSearchViewModel.setPet(null)
+        },
+        ) {
+            Icon(Icons.Filled.Close, "" ,modifier)
+        }
+    }
+
+    Box (
+        modifier = buttonModifier,
+        contentAlignment = Alignment.BottomEnd
+    ){
+        IconButton(onClick = {
+            petSearchViewModel.checkCountUp()
+        }) {
+            Icon(Icons.Filled.DoneOutline, "" ,modifier)
+        }
     }
 }
 
@@ -137,8 +166,8 @@ fun PetDetailContent(pet: Pet, modifier: Modifier) {
                     .padding(16.dp),
             ) {
                 Text(
-                    text = "Name is ${pet.name} \nbirthplace : ${pet.origin} \nbirthday : ${pet.birthday}",
-                    style = MaterialTheme.typography.h5,
+                    text = "Name is ${pet.name} / ${pet.type} \nbirthplace : ${pet.origin} \nbirthday : ${pet.birthday}",
+                    style = MaterialTheme.typography.h4,
                 )
             }
         }
@@ -150,7 +179,7 @@ fun PetDetailContent(pet: Pet, modifier: Modifier) {
                     .padding(16.dp),
             ){
                 Text(text = petSearchViewModel.petDetailNote,
-                    style = MaterialTheme.typography.h5,
+                    style = MaterialTheme.typography.h4,
                 )
             }
         }
@@ -222,19 +251,20 @@ fun PetList(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
 
-        ) {
+            ) {
             items(petList) { pet ->
-                PetListItem(
-                    onClick = {
-                              // Click処理
-                        petSearchViewModel.setPet(pet)
-                    },
-                    pet,
-                    modifier
-                )
+                Card(elevation = 2.dp) {
+                    PetListItem(
+                        onClick = {
+                            // Click処理
+                            petSearchViewModel.setPet(pet)
+                        },
+                        pet,
+                        modifier
+                    )
+                }
             }
         }
-
     }
 }
 
@@ -277,7 +307,7 @@ fun PetListItem(
             IconButton(
                 onClick = onClick,
                 modifier = squareModifier,
-                ){
+            ){
                 Icon(Icons.Filled.Favorite, "" ,modifier, tint = Red)
             }
         }
