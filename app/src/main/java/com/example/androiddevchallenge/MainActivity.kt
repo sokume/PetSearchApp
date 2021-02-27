@@ -19,39 +19,32 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Color.Companion.LightGray
+import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.solver.state.helpers.AlignVerticallyReference
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.lifecycle.ViewModel
 import com.example.androiddevchallenge.model.Pet
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.viewmodel.PetSearchViewModel
-import java.time.format.TextStyle
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,17 +54,6 @@ class MainActivity : AppCompatActivity() {
                 MyApp()
             }
         }
-    }
-}
-
-// Start building your app here!
-@Composable
-fun MyApp() {
-    val petSearchViewModel = PetSearchViewModel()
-    Surface(color = MaterialTheme.colors.background) {
-        MessageList(
-            petSearchViewModel.petList,
-            Modifier)
     }
 }
 
@@ -91,8 +73,145 @@ fun DarkPreview() {
     }
 }
 
+
+val petSearchViewModel = PetSearchViewModel()
+
+// Start building your app here!
 @Composable
-fun MessageList(
+fun MyApp() {
+    val selectedPet = petSearchViewModel.selectedPet
+    Surface(color = MaterialTheme.colors.background) {
+        // List
+        PetList(
+            petSearchViewModel.petList,
+            Modifier)
+        // Detail
+        selectedPet?.let{
+            PetDetailBase(
+                it,
+                Modifier
+            )            
+        }
+    }
+}
+
+@Composable
+fun PetDetailBase(
+    pet: Pet,
+    modifier: Modifier = Modifier ) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(horizontal = 16.dp, vertical = 32.dp),
+        elevation = 8.dp
+    ) {
+        PetDetailContent(pet,modifier)
+    }
+}
+
+@Composable
+fun PetDetailContent(pet: Pet, modifier: Modifier) {
+
+    Column {
+        Row(modifier = Modifier.weight(2.0f, true)) {
+            Box (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+            ){
+                AnimalImage(
+                    pet.drawableImageId,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .clip(shape = RoundedCornerShape(4.dp))
+                )
+            }
+        }
+        Row(modifier = Modifier.weight(1.0f, true)) {
+            Box (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .padding(16.dp),
+            ) {
+                Text(
+                    text = "Name is ${pet.name} \nbirthplace : ${pet.origin} \nbirthday : ${pet.birthday}",
+                    style = MaterialTheme.typography.h5,
+                )
+            }
+        }
+        Row(modifier = Modifier.weight(1.0f, true)) {
+            Box (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .padding(16.dp),
+            ){
+                Text(text = petSearchViewModel.petDetailNote,
+                    style = MaterialTheme.typography.h5,
+                )
+            }
+        }
+        Row(modifier = Modifier.weight(0.5f, true)) {
+            Box (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+            ){
+                StampArea(pet,modifier)
+            }
+        }
+    }
+}
+
+@Composable
+fun StampArea(pet: Pet, modifier: Modifier) {
+    val checkColor = Red
+    val notCheck = LightGray
+    val petCheckedCount = petSearchViewModel.petCheckedCount
+
+    fun checkColor(index : Int) : Color {
+        return if (petCheckedCount > index) checkColor else notCheck
+    }
+
+    Row(modifier = Modifier.padding(horizontal = 8.dp)) {
+        Column(modifier = Modifier.weight(1.0f, true)) {
+            Icon(Icons.Filled.Send, "" ,modifier, tint = checkColor(10))
+        }
+        Column(modifier = Modifier.weight(1.0f, true)) {
+            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(9))
+        }
+        Column(modifier = Modifier.weight(1.0f, true)) {
+            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(8))
+        }
+        Column(modifier = Modifier.weight(1.0f, true)) {
+            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(7))
+        }
+        Column(modifier = Modifier.weight(1.0f, true)) {
+            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(6))
+        }
+        Column(modifier = Modifier.weight(1.0f, true)) {
+            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(5))
+        }
+        Column(modifier = Modifier.weight(1.0f, true)) {
+            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(4))
+        }
+        Column(modifier = Modifier.weight(1.0f, true)) {
+            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(3))
+        }
+        Column(modifier = Modifier.weight(1.0f, true)) {
+            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(2))
+        }
+        Column(modifier = Modifier.weight(1.0f, true)) {
+            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(1))
+        }
+    }
+}
+
+@Composable
+fun PetList(
     petList: List<Pet>,
     modifier: Modifier = Modifier
 )
@@ -108,6 +227,7 @@ fun MessageList(
                 PetListItem(
                     onClick = {
                               // Click処理
+                        petSearchViewModel.setPet(pet)
                     },
                     pet,
                     modifier
@@ -154,14 +274,12 @@ fun PetListItem(
             modifier = modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ){
-            Button(
+            IconButton(
                 onClick = onClick,
                 modifier = squareModifier,
-
                 ){
-
+                Icon(Icons.Filled.Favorite, "" ,modifier, tint = Red)
             }
-
         }
     }
 
