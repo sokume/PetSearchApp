@@ -1,8 +1,5 @@
 package com.example.androiddevchallenge.model
 
-import java.util.*
-
-
 data class Pet(
     val name : String,
     val type : String,
