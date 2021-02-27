@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -168,6 +169,7 @@ fun PetDetailContent(pet: Pet, modifier: Modifier) {
                 Text(
                     text = "Name is ${pet.name} / ${pet.type} \nbirthplace : ${pet.origin} \nbirthday : ${pet.birthday}",
                     style = MaterialTheme.typography.h4,
+                    fontFamily = FontFamily.Monospace,
                 )
             }
         }
@@ -180,7 +182,8 @@ fun PetDetailContent(pet: Pet, modifier: Modifier) {
             ){
                 Text(text = petSearchViewModel.petDetailNote,
                     style = MaterialTheme.typography.h4,
-                )
+                    fontFamily = FontFamily.Monospace,
+                    )
             }
         }
         Row(modifier = Modifier.weight(0.5f, true)) {
@@ -293,6 +296,7 @@ fun PetListItem(
             Text(
                 text = pet.name,
                 style = MaterialTheme.typography.h3,
+                fontFamily = FontFamily.Monospace,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .height(75.dp)
