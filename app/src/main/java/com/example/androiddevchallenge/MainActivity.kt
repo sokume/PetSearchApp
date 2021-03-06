@@ -89,7 +89,6 @@ fun DarkPreview() {
     }
 }
 
-
 val petSearchViewModel = PetSearchViewModel()
 
 // Start building your app here!
@@ -102,7 +101,7 @@ fun MyApp() {
             petList = petSearchViewModel.petList
         )
         // Detail
-        selectedPet?.let{
+        selectedPet?.let {
             PetDetailBase(
                 pet = it
             )
@@ -113,7 +112,8 @@ fun MyApp() {
 @Composable
 fun PetDetailBase(
     pet: Pet,
-    modifier: Modifier = Modifier ) {
+    modifier: Modifier = Modifier
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -121,7 +121,7 @@ fun PetDetailBase(
             .padding(horizontal = 16.dp, vertical = 32.dp),
         elevation = 8.dp
     ) {
-        PetDetailContent(pet,modifier)
+        PetDetailContent(pet, modifier)
         PetDetailAction(modifier)
     }
 }
@@ -134,26 +134,27 @@ fun PetDetailAction(modifier: Modifier) {
         .height(75.dp)
         .padding(8.dp)
 
-    Box (
+    Box(
         modifier = buttonModifier,
         contentAlignment = Alignment.TopEnd,
-    ){
-        IconButton(onClick = {
-            petSearchViewModel.setPet(null)
-        },
+    ) {
+        IconButton(
+            onClick = {
+                petSearchViewModel.setPet(null)
+            },
         ) {
-            Icon(Icons.Filled.Close, "" ,modifier)
+            Icon(Icons.Filled.Close, "", modifier)
         }
     }
 
-    Box (
+    Box(
         modifier = buttonModifier,
         contentAlignment = Alignment.BottomEnd
-    ){
+    ) {
         IconButton(onClick = {
             petSearchViewModel.checkCountUp()
         }) {
-            Icon(Icons.Filled.DoneOutline, "" ,modifier)
+            Icon(Icons.Filled.DoneOutline, "", modifier)
         }
     }
 }
@@ -163,11 +164,11 @@ fun PetDetailContent(pet: Pet, modifier: Modifier) {
 
     Column {
         Row(modifier = Modifier.weight(2.0f, true)) {
-            Box (
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),
-            ){
+            ) {
                 AnimalImage(
                     pet.drawableImageId,
                     modifier = Modifier
@@ -178,7 +179,7 @@ fun PetDetailContent(pet: Pet, modifier: Modifier) {
             }
         }
         Row(modifier = Modifier.weight(1.0f, true)) {
-            Box (
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()
@@ -192,25 +193,26 @@ fun PetDetailContent(pet: Pet, modifier: Modifier) {
             }
         }
         Row(modifier = Modifier.weight(1.0f, true)) {
-            Box (
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .padding(16.dp),
-            ){
-                Text(text = petSearchViewModel.petDetailNote,
+            ) {
+                Text(
+                    text = petSearchViewModel.petDetailNote,
                     style = MaterialTheme.typography.h4,
                     fontFamily = FontFamily.Monospace,
                 )
             }
         }
         Row(modifier = Modifier.weight(0.5f, true)) {
-            Box (
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),
-            ){
-                StampArea(pet,modifier)
+            ) {
+                StampArea(pet, modifier)
             }
         }
     }
@@ -222,40 +224,40 @@ fun StampArea(pet: Pet, modifier: Modifier) {
     val notCheck = LightGray
     val petCheckedCount = petSearchViewModel.petCheckedCount
 
-    fun checkColor(index : Int) : Color {
+    fun checkColor(index: Int): Color {
         return if (petCheckedCount > index) checkColor else notCheck
     }
 
     Row(modifier = Modifier.padding(horizontal = 8.dp)) {
         Column(modifier = Modifier.weight(1.0f, true)) {
-            Icon(Icons.Filled.Send, "" ,modifier, tint = checkColor(10))
+            Icon(Icons.Filled.Send, "", modifier, tint = checkColor(10))
         }
         Column(modifier = Modifier.weight(1.0f, true)) {
-            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(9))
+            Icon(Icons.Filled.Check, "", modifier, tint = checkColor(9))
         }
         Column(modifier = Modifier.weight(1.0f, true)) {
-            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(8))
+            Icon(Icons.Filled.Check, "", modifier, tint = checkColor(8))
         }
         Column(modifier = Modifier.weight(1.0f, true)) {
-            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(7))
+            Icon(Icons.Filled.Check, "", modifier, tint = checkColor(7))
         }
         Column(modifier = Modifier.weight(1.0f, true)) {
-            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(6))
+            Icon(Icons.Filled.Check, "", modifier, tint = checkColor(6))
         }
         Column(modifier = Modifier.weight(1.0f, true)) {
-            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(5))
+            Icon(Icons.Filled.Check, "", modifier, tint = checkColor(5))
         }
         Column(modifier = Modifier.weight(1.0f, true)) {
-            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(4))
+            Icon(Icons.Filled.Check, "", modifier, tint = checkColor(4))
         }
         Column(modifier = Modifier.weight(1.0f, true)) {
-            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(3))
+            Icon(Icons.Filled.Check, "", modifier, tint = checkColor(3))
         }
         Column(modifier = Modifier.weight(1.0f, true)) {
-            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(2))
+            Icon(Icons.Filled.Check, "", modifier, tint = checkColor(2))
         }
         Column(modifier = Modifier.weight(1.0f, true)) {
-            Icon(Icons.Filled.Check, "" ,modifier, tint = checkColor(1))
+            Icon(Icons.Filled.Check, "", modifier, tint = checkColor(1))
         }
     }
 }
@@ -264,9 +266,8 @@ fun StampArea(pet: Pet, modifier: Modifier) {
 fun PetList(
     petList: List<Pet>,
     modifier: Modifier = Modifier
-)
-{
-    Box(modifier = modifier){
+) {
+    Box(modifier = modifier) {
         LazyColumn(
             modifier.fillMaxWidth(),
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
@@ -299,7 +300,7 @@ fun PetListItem(
         .width(75.dp)
         .height(75.dp)
 
-    Box(modifier = modifier.fillMaxWidth()){
+    Box(modifier = modifier.fillMaxWidth()) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -325,20 +326,19 @@ fun PetListItem(
         Row(
             modifier = modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
-        ){
+        ) {
             IconButton(
                 onClick = onClick,
                 modifier = squareModifier,
-            ){
-                Icon(Icons.Filled.Favorite, "" ,modifier, tint = Red)
+            ) {
+                Icon(Icons.Filled.Favorite, "", modifier, tint = Red)
             }
         }
     }
-
 }
 
 @Composable
 fun AnimalImage(drawableImageId: Int, modifier: Modifier) {
     val image: Painter = painterResource(id = drawableImageId)
-    Image(image,"" , modifier = modifier, contentScale = ContentScale.Crop)
+    Image(image, "", modifier = modifier, contentScale = ContentScale.Crop)
 }
