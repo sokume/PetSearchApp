@@ -154,7 +154,8 @@ fun PetDetailAction(modifier: Modifier) {
         IconButton(
             onClick = {
                 petSearchViewModel.checkCountUp()
-            }) {
+            }
+        ) {
             Icon(Icons.Filled.DoneOutline, "", modifier)
         }
     }
