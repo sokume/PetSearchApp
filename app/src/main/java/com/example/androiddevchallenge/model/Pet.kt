@@ -23,4 +23,3 @@ data class Pet(
     val drawableImageId: Int,
     val notes: List<String>
 )
-
