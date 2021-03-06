@@ -151,9 +151,10 @@ fun PetDetailAction(modifier: Modifier) {
         modifier = buttonModifier,
         contentAlignment = Alignment.BottomEnd
     ) {
-        IconButton(onClick = {
-            petSearchViewModel.checkCountUp()
-        }) {
+        IconButton(
+            onClick = {
+                petSearchViewModel.checkCountUp()
+            }) {
             Icon(Icons.Filled.DoneOutline, "", modifier)
         }
     }
@@ -272,8 +273,7 @@ fun PetList(
             modifier.fillMaxWidth(),
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
-
-            ) {
+        ) {
             items(petList) { pet ->
                 Card(elevation = 2.dp) {
                     PetListItem(
